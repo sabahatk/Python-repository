@@ -1,5 +1,6 @@
 #Import urlopen() to be used to open urls within the program
 from urllib.request import urlopen
+import re #import regex
 
 def retrieve_html_contents(input_url):
     local_url = input_url
@@ -7,17 +8,11 @@ def retrieve_html_contents(input_url):
     page = urlopen(local_url)
 
     local_html_bytes = page.read() #Extracts HTML from the webpage
-    local_html = html_bytes.decode("utf-8") #Decodes HTML into a string using UTF-8
+    local_html = local_html_bytes.decode("utf-8") #Decodes HTML into a string using UTF-8
     return local_html
 
 url = "http://olympus.realpython.org/profiles/aphrodite"
 html = retrieve_html_contents(url)
-
-#page = urlopen(url)
-#print(page)
-
-#html_bytes = page.read() #Extracts HTML from the webpage
-#html = html_bytes.decode("utf-8") #Decodes HTML into a string using UTF-8
 
 print(html) # Prints the HTML contents
 
@@ -38,10 +33,17 @@ print(title)
 
 #Trying a new HTML page
 url = "http://olympus.realpython.org/profiles/poseidon"
-page = urlopen(url)
-print(page)
-
-html_bytes = page.read() #Extracts HTML from the webpage
-html = html_bytes.decode("utf-8") #Decodes HTML into a string using UTF-8
+html = retrieve_html_contents(url)
 
 print(html) # Prints the HTML contents
+
+
+url = "http://olympus.realpython.org/profiles/dionysus"
+html = retrieve_html_contents(url)
+
+pattern = "<title.*?>.*?</title.*?>" #Pattern to search for title
+match_results = re.search(pattern, html, re.IGNORECASE)
+title = match_results.group() # returns first and most inclusive result
+title = re.sub("<.*?>", "", title) #Remove HTML tags
+print(title)
+
