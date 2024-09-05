@@ -52,11 +52,14 @@ def browseFiles(path_store: list):
 def get_save_location(path_store: list):
     filepath = askdirectory()
     print(filepath)
+
     lbl3 = Label(root, text= "Folder selected: " + filepath)
     lbl3 = lbl3.grid(row = 1, column=2)
     #path_store[0] = filepath
-    path_store.append(filepath)
-    print(path_store)
+    global save_filepath
+    save_filepath = filepath
+    #path_store.append(filepath)
+    #print(path_store)
 
 root = Tk()
 
@@ -97,4 +100,8 @@ btn = Button(root, text = "Convert" ,
 
 
 root.mainloop()
-print("The file path is: " + open_filepath)
+print("The open file path is: " + open_filepath)
+print("The save file path is: " + save_filepath)
+
+save_filepath = save_filepath + r"\Sabahat Khan Resume Final7.pdf"
+convert(open_filepath, save_filepath)
