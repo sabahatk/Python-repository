@@ -4,16 +4,36 @@ from tkinter import filedialog
 from tkinter.filedialog import askdirectory
 import tkinter as tk
 
+global save_filepath
+global open_filepath
 #convert(r"C:\Users\sabah\Documents\Sabahat\Job\Resumes and Cover Letters to Upload\Sabahat Khan Resume 2.docx", r"C:\Users\sabah\Documents\Sabahat\Job\Resumes and Cover Letters to Upload\Sabahat Khan Resume.pdf")
-def convert_docx_to_pdf(docx_filepath, pdf_filepath):
-    lbl.configure(text = "I just got clicked")
+def convert_docx_to_pdf():
+    #lbl.configure(text = "I just got clicked")
     #retrieve_text = self.
-    print 
+    #print 
     #convert(docx_filepath, pdf_filepath)
+    global save_filepath
+    global open_filepath
+    validation = validate_fields()
+    
+    if validation:
+        save_filepath = save_filepath + filename_input.get()
+        convert(open_filepath, save_filepath)
 
-def setup_conversion():
-    docx = file_locations[0]
-    #pdf = 
+def validate_fields():
+    global open_filepath
+    global save_filepath
+    lbl2 = Label(root, text = "")
+    if not filename_input.get() or filename_input.get().endswith(".pdf") == False:
+        
+        lbl2.grid(column = 0, row = 5)
+        lbl2.configure(text = "Please fill in all fields and provide the proper format.")
+        return False
+    else:
+        lbl2 = Label(root, text = "")
+        lbl2.grid(column = 0, row = 5)
+        lbl2.configure(text = "File successfully converted.")
+        return True
 
 def clicked():
     lbl.configure(text = "I just got clicked")
@@ -99,22 +119,8 @@ btn.grid(column=1, row=1)
 
 
 btn = Button(root, text = "Convert" ,
-             fg = "black", command=lambda: convert_docx_to_pdf(open_filepath, save_filepath))
+             fg = "black", command=lambda: convert_docx_to_pdf())
 
-#btn.grid(column=1, row=0)
-
-
+btn.grid(column=0, row=3)
 
 root.mainloop()
-
-if not open_filepath or not save_filepath or not filename_input:
-    print("Strings were empty")
-else:
-    #save_filepath = save_filepath + r"\Sabahat Khan Resume Final7.pdf"
-    print("The open file path is: " + open_filepath)
-    print("The save file path is: " + save_filepath)
-    print("The textbox input is: " + filename_input.get())
-    save_filepath = save_filepath + filename_input.get()
-    print("The full save filepath is: " + save_filepath)
-
-convert(open_filepath, save_filepath)
