@@ -29,14 +29,11 @@ def validate_fields():
         lbl2.configure(text = "Please fill in all fields and provide the proper format.")
         return False
     else:
-        lbl2 = Label(root, text = "")
-        lbl2.grid(column = 0, row = 5)
-        lbl2.configure(text = "File successfully converted.")
+        lbl2.destroy
+        lbl_success = Label(root, text = "")
+        lbl_success.grid(column = 0, row = 5)
+        lbl_success.configure(text = "File successfully converted.")
         return True
-
-def clicked():
-    lbl.configure(text = "I just got clicked")
-
 
 file_locations = []
 
@@ -54,6 +51,7 @@ def browseFiles(path_store: list):
     path_store.append(filepath)
 
     global open_filepath
+    open_filepath = ""
     open_filepath = filepath
     if open_filepath and save_filepath:
         btn_convert["state"] = "normal"
@@ -62,10 +60,13 @@ def get_save_location(path_store: list):
     filepath = askdirectory()
     print(filepath)
 
-    lbl3 = Label(root, text= "Folder selected: " + filepath)
-    lbl3 = lbl3.grid(row = 1, column=2)
+
     global save_filepath
+    save_filepath = ""
     save_filepath = filepath
+    save_filepath += "/"
+    lbl_save_location = Label(root, text= "Folder selected: " + save_filepath)
+    lbl_save_location = lbl_save_location.grid(row = 1, column=2)
     if open_filepath and save_filepath:
         btn_convert["state"] = "normal"
 
@@ -81,7 +82,7 @@ lbl_open.grid(column = 0, row = 0)
 # adding Entry Field
 filename_input=tk.StringVar()
 
-lbl_save = Label(root, text = "Enter your filename (Must start with a '/' and ends with a .pdf extension)")
+lbl_save = Label(root, text = "Enter your filename (Must end with a .pdf extension)")
 lbl_save.grid(column = 0, row = 2)
 
 txt = Entry(root, textvariable=filename_input, width=30)
