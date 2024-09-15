@@ -6,12 +6,11 @@ import tkinter as tk
 
 global save_filepath
 global open_filepath
-#convert(r"C:\Users\sabah\Documents\Sabahat\Job\Resumes and Cover Letters to Upload\Sabahat Khan Resume 2.docx", r"C:\Users\sabah\Documents\Sabahat\Job\Resumes and Cover Letters to Upload\Sabahat Khan Resume.pdf")
+
+save_filepath = ""
+open_filepath = ""
+
 def convert_docx_to_pdf():
-    #lbl.configure(text = "I just got clicked")
-    #retrieve_text = self.
-    #print 
-    #convert(docx_filepath, pdf_filepath)
     global save_filepath
     global open_filepath
     validation = validate_fields()
@@ -55,22 +54,9 @@ def browseFiles(path_store: list):
     path_store.append(filepath)
 
     global open_filepath
-    #return filepath
-    #return_input(filepath)
     open_filepath = filepath
-    print(open_filepath)
-
-
-    #path_store[1] = filepath
-
-
-
-#def save_file():
-#   f = asksaveasfile(initialfile = 'Untitled.pdf',
-#defaultextension=".txt",filetypes=[("All Files","*.*"),("PDF Documents","*.pdf")])
-
-    #file = filedialog.asksaveasfile(defaultextension='.pdf')
-    #file.close()
+    if open_filepath and save_filepath:
+        btn_convert["state"] = "normal"
 
 def get_save_location(path_store: list):
     filepath = askdirectory()
@@ -78,11 +64,10 @@ def get_save_location(path_store: list):
 
     lbl3 = Label(root, text= "Folder selected: " + filepath)
     lbl3 = lbl3.grid(row = 1, column=2)
-    #path_store[0] = filepath
     global save_filepath
     save_filepath = filepath
-    #path_store.append(filepath)
-    #print(path_store)
+    if open_filepath and save_filepath:
+        btn_convert["state"] = "normal"
 
 root = tk.Tk()
 
@@ -90,37 +75,44 @@ root.title("Convert Docx to PDF")
 
 root.geometry('350x200')
 
-lbl = Label(root, text = "Select docx file")
-lbl.grid(column = 0, row = 0)
+lbl_open = Label(root, text = "Select docx file")
+lbl_open.grid(column = 0, row = 0)
 
 # adding Entry Field
 filename_input=tk.StringVar()
 
+lbl_save = Label(root, text = "Enter your filename (Must start with a '/' and ends with a .pdf extension)")
+lbl_save.grid(column = 0, row = 2)
+
 txt = Entry(root, textvariable=filename_input, width=30)
-txt.grid(column = 0, row =2)
+txt.grid(column = 1, row = 2)
 
 
-btn = Button(root, text = "Open" ,
+btn_open = Button(root, text = "Open" ,
              fg = "black", command=lambda: browseFiles(file_locations))
 
 #Place in first row, second column
-btn.grid(column=1, row=0)
+btn_open.grid(column=1, row=0)
 
-lbl = Label(root, text = "Select where to save the PDF file")
-lbl.grid(column = 0, row = 1)
+lbl_save = Label(root, text = "Select where to save the PDF file")
+lbl_save.grid(column = 0, row = 1)
 
-btn = Button(root, text = "Select Folder" ,
+btn_save = Button(root, text = "Select Folder" ,
              fg = "black", command=lambda: get_save_location(file_locations))
 
 
 
-btn.grid(column=1, row=1)
+btn_save.grid(column=1, row=1)
 
-
-
-btn = Button(root, text = "Convert" ,
+btn_convert = Button(root, text = "Convert" ,
              fg = "black", command=lambda: convert_docx_to_pdf())
 
-btn.grid(column=0, row=3)
+btn_convert.grid(column=0, row=3)
+
+if not save_filepath or not open_filepath:
+    btn_convert["state"] = "disabled"
+else:
+    btn_convert["state"] = "normal"
+
 
 root.mainloop()
