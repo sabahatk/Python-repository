@@ -92,7 +92,7 @@ txt.grid(column = 1, row = 2)
 btn_open = Button(root, text = "Open" ,
              fg = "black", command=lambda: browseFiles(file_locations))
 
-#Place in first row, second column
+#Place in first row, in the second column
 btn_open.grid(column=1, row=0)
 
 lbl_save = Label(root, text = "Select where to save the PDF file")
